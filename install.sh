@@ -24,7 +24,7 @@ cd ..
 
 
 # Install the dotfiles
-cp -r home/* ~/
+cp -av home/. ~/
 
 # Install vimplug in neovim
 
