@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+
+# This is a little script to fetch the status from the deluge
+# daemon and print it, it's created to work on i3blocks with
+# AwesomeFont to siplay icons
+
+try:
+    from deluge.ui.client import client
+    from twisted.internet import reactor
+except:
+    print("Not installed")
+    sys.exit(1)
+
+import sys
+from collections import defaultdict
+import os
+import subprocess
+
+# This is the data we want to get
+torrents = defaultdict(int)
+
+# To know when to stop the reactor, we keep track of what's done
+is_done = [False, False, True]
+
+# The exit code
+code = 0
+
+keys = ["Total", "Paused", "Downloading","DRate","Seeding", "URate"]
+def format_speed(speed):
+    units = ['B', 'KiB', 'MiB', 'GiB']
+    for unit in units:
+        if(speed<1024):
+            return "{:.1f}{}".format(speed, unit)
+        speed /= 1024
+
+def stop_if_done(i):
+    is_done[i] = True
+    if(all(is_done)):
+        reactor.stop()
+
+def on_add(res):
+    subprocess.Popen(['notify-send', '-t', '2000', 'Torrent added'])
+    stop_if_done(2)
+
+def on_add_failed(res):
+    # Display failure message
+    subprocess.Popen(['notify-send', '-t', '2000',
+        'Couldn\'t add torrent', res.getErrorMessage()])
+    stop_if_done(2)
+
+def on_session_status(res):
+    # Set the download and upload rated
+    torrents['DRate'] = format_speed(res['download_rate'])
+    torrents['URate'] = format_speed(res['upload_rate'])
+    stop_if_done(0)
+
+def on_torrents_status(res):
+    # Count torrents that belong to each state
+    if len(res) == 0:
+        print('No torrents')
+        exit(0)
+    torrents['Total'] = len(res)
+    for torr in res:
+        state = res[torr]['state']
+        if ( state == 'Paused' and res[torr]['is_finished']):
+             continue
+        if state in keys:
+            torrents['tally'] += 1
+        torrents[state] += 1
+    stop_if_done(1)
+
+
+def on_connected(res):
+    # If the daemon is running and the right mouse button is pressed
+    # get magnet link from the keyboard and add it to the server
+    button = os.environ.get('BLOCK_BUTTON')
+    if button=='3':
+        is_done[2] = False
+        p = subprocess.run(['xclip', '-o'], capture_output=True)
+        link = p.stdout.decode('utf8')
+        a = client.core.add_torrent_magnet(link,[])
+        a.addCallback(on_add)
+        a.addErrback(on_add_failed)
+
+    client.core.get_session_status(
+            ['download_rate', 'upload_rate']
+            ).addCallback(on_session_status)
+    client.core.get_torrents_status({},
+            []).addCallback(on_torrents_status)
+
+def on_connected_err(res):
+    global code
+    code = 1
+    reactor.stop()
+
+
+d = client.connect()
+d.addCallback(on_connected)
+d.addErrback(on_connected_err)
+reactor.run()
+
+
+# Now, handle the data we're supposed to have from the
+# The callbacks
+# Yeah, if you can't connect. Assume deluge's not running
+# If no torrents, no use printing the info
+if code != 1 or torrents['Total'] != 0:
+    # The info we need is in there
+	if torrents['tally'] != 0:
+		print("&#xf0c5;{} &#xf04c;{} &#xf019;{}({}/s) &#xf093;{}({}/s)"
+			.format(*[torrents[key] for key in keys]))
+	else:
+		print("&#xf0c5;{}".format(torrents['Total']))
+sys.exit(0)

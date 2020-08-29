@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# Get a list of volumes
+device=$(lsblk -lp -o NAME,SIZE,TYPE,FSTYPE,UUID,MOUNTPOINT |
+    awk '( ( $3 == "part" || $3 == "disk" ) && $5 != "")  && $6 '"$([ "$1" = "u" ] && echo '!' ||
+        echo '=')"'= "" {print $1,$2,$4,$5}' | dmenu -l 5)
+
+# check if selected
+[ -z "$device" ] && exit 1
+
+block=$(echo $device | awk '{print $1}')
+UUID=$(echo $device | awk '{print $4}')
+
+export SUDO_ASKPASS=$HOME/.local/bin/askpass
+
+# an alias to show error message
+alias error_message='notify-send -t 4000 -i dialog-error -u critical'
+
+sudo -A echo get pass ||
+    ( error_message "Can't get root password" && exit 1)
+
+# TODO Add support for LUKS encrypted volumes
+
+if [ "$1" = 'u' ]; then
+    echo unmounting $block...
+    ( sudo -n umount "$block" ) &&
+        notify-send -t 2000 -i media-eject -u low "Unmounted $block" ||
+        error_message "Unmounting $block failed"
+else
+    echo Creating mountpoint...
+    mount_dir="/mnt/$UUID"
+    [ -z "$(sudo -n ls -qA $mount_dir)" ] ||
+        ( error_message "$mount_dir is not empty" && exit 1)
+    sudo -n mkdir -p $mount_dir || 
+        ( error_message "mountpoint $mount_dir could not be created" && exit 1)
+    echo mounting $block...
+       ( sudo -n mount "$block" $mount_dir) &&
+        notify-send -t 2000 -i drive-harddisk -u low "Mounted $block to $mount_dir" ||
+        error_message "Mounting $block failed"
+fi
+

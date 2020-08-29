@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# You can either use an argument to increase
+# or decrease the brightness, otherwise
+# the environment variable BLOCK_BUTTON
+# is set by i3blocks
+
+if [ "$BLOCK_BUTTON" = "4" ] || [ "$1" = "+" ]
+then
+	[ "$(xbacklight | xargs printf '%.0f')" -ge 5 ] && xbacklight +5 || xbacklight +1
+elif [ "$BLOCK_BUTTON" = "5" ] || [ "$1" = "-" ]
+then
+	[ "$(xbacklight | xargs printf '%.0f')" -gt 5 ] && xbacklight -5 || xbacklight -1
+fi
+
+# Get the backlight brightness
+backlight=$(xbacklight)
+
+# Print the results
+pkill -SIGRTMIN+10 i3blocks
+printf "%.0f%% \n" "$backlight"
+

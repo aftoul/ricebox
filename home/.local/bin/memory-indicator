@@ -1,0 +1,5 @@
+#!/bin/sh
+
+
+free | grep 'Mem:' | awk '{printf "%.2fGB (%.0f%%) \n", $3/1024/1024, $3*100/$2}'
+

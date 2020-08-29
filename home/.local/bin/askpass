@@ -1,0 +1,4 @@
+#!/bin/sh
+
+zenity --password --title="sudo Password"
+

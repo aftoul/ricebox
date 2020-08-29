@@ -1,0 +1,109 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+command=/usr/share/i3blocks/$BLOCK_NAME || ~/.local/bin/$BLOCK_NAME
+separator_block_width=15
+markup=pango
+# color=#eaeaea
+
+
+# Volume indicator
+#
+# The first parameter sets the step (and units to display)
+# The second parameter overrides the mixer selection
+# See the script for details.
+
+[deluge-indicator]
+interval=5
+
+[volume]
+label= &#xf026; 
+instance=Master
+interval=once
+signal=10
+
+# Wallpaper changer block
+[wallpaper-changer]
+label= &#xf1c5;
+command=[ "$BLOCK_BUTTON" = "1" ] && ~/.local/bin/randwallpaper 0 ~/.local/share/backgrounds 95 > /dev/null; echo ' '
+interval=once
+
+# Disk usage
+#
+# The directory defaults to $HOME if the instance is not specified.
+# The script may be called with a optional argument to set the alert
+# (defaults to 10 for 10%).
+[disk]
+label= &#xf015;
+interval=30
+
+# Custom backlight indicator
+[backlight-indicator]
+label= &#xf0eb;
+interval=once
+signal=10
+
+# Battery indicator
+[battery-indicator]
+interval=30
+
+[bandwidth-indicator]
+label= &#xf080;
+interval=5
+
+[memory-indicator]
+label= &#xf200;
+interval=5
+
+# Date Time
+[time]
+command=date '+   &#xf073;%d/%m/%y &#xf017;%H:%M'
+interval=5
+
+# Temperature
+#
+# Support multiple chips, though lm-sensors.
+# The script may be called with -w and -c switches to specify thresholds,
+# see the script for details.
+#[temperature]
+#label=TEMP
+#interval=10
+
+# Key indicators
+#
+# Add the following bindings to i3 config file:
+#
+# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+#[keyindicator]
+#instance=CAPS
+#interval=once
+#signal=11
+
+#[keyindicator]
+#instance=NUM
+#interval=once
+#signal=11<

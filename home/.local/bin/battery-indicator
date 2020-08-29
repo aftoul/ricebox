@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# ddefault instancee
+
+[ "$BLOCK_INSTANCE" != "" ] || BLOCK_INSTANCE=0
+
+# Get battery information
+battery="/sys/class/power_supply/BAT$BLOCK_INSTANCE"
+
+# Get the three variables from the battery files
+stat=$(cat "$battery/status")
+
+char=$(cat "$battery/capacity")
+
+code=0
+if [ "$stat" = "Unknown" ]
+then
+	icon="&#xf12a;"
+elif [ "$stat" = "Full" ]
+then
+	icon="&#xf164;"
+elif [ "$stat" = "Charging" ]
+then
+	icon="&#xf0e7;"
+elif [ "$stat" = "Discharging" ]
+then
+if [ $char -gt 75 ]
+then
+	icon="&#xf240;"
+elif [ $char -gt 50 ]
+then
+	icon="&#xf241;"
+elif [ $char -gt 25 ]
+then
+	icon="&#xf242;"
+elif [ $char -gt 10 ]
+then
+	icon="&#xf243;"
+else
+	icon="&#xf244;"
+	# Danger state
+	code=33
+fi
+fi
+
+printf "%s %d%%" "$icon" "$char"
+if [ "$time" != "" ]
+then
+	printf "(%s)" "$time"
+fi
+printf "\n"
+exit $code
