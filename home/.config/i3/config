@@ -240,7 +240,7 @@ focus_follows_mouse no
 
 exec --no-startup-id /usr/lib/notification-daemon/notification-daemon
 
-exec --no-startup-id ~/.local/bin/randwallpaper 0 "~/.local/share/backgrounds/" 95
+exec --no-startup-id ~/.local/bin/randwallpaper 0 ~/.local/share/backgrounds/ 95
 exec --no-startup-id compton
 exec --no-startup-id connman-gtk --tray
 exec --no-startup-id xss-lock -- ~/.local/bin/locker 
