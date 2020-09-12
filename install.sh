@@ -18,6 +18,7 @@ git clone https://github.com/Airblader/i3
 
 cd i3
 mkdir build && cd build
+autoreconf --force --install ..
 ../configure --disable-check
 make && sudo make install
 cd ../..
