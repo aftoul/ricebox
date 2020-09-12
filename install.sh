@@ -2,7 +2,7 @@
 
 
 # Install required packages
-sudo apt install compton connman-gtk xss-lock redshift notification-daemon libnotify-bin ranger ark python3 python3-pip evince okular zenity xbacklight i3lock i3blocks git fonts neovim feh fonts-hack fonts-font-awesome wget rxvt-unicode
+sudo apt install compton connman-gtk xss-lock redshift notification-daemon libnotify-bin ranger ark python3 python3-pip evince okular zenity xbacklight i3lock i3blocks git neovim feh fonts-hack fonts-font-awesome wget rxvt-unicode
 
 # Install packages to build i3-gaps from source
 sudo apt install gcc make autoconf automake pkg-config flex bison check
