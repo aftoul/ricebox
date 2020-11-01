@@ -11,9 +11,6 @@ case $DISTRO in
         break;;
 esac
 
-exit
-
-# Some python deps
 sudo pip3 install deluge pywal colorz neovim
 
 # Install the dotfiles

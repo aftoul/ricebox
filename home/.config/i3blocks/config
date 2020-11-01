@@ -24,7 +24,7 @@
 #
 # The top properties below are applied to every block, but can be overridden.
 # Each block command defaults to the script name to avoid boilerplate.
-command=/usr/share/i3blocks/$BLOCK_NAME || ~/.local/bin/$BLOCK_NAME
+command= /usr/lib/i3blocks/$BLOCK_NAME/$BLOCK_NAME || /usr/share/i3blocks/$BLOCK_NAME || ~/.local/bin/$BLOCK_NAME 
 separator_block_width=15
 markup=pango
 # color=#eaeaea
@@ -67,8 +67,8 @@ interval=once
 signal=10
 
 # Battery indicator
-[battery-indicator]
-interval=30
+# [battery-indicator]
+# interval=30
 
 [bandwidth-indicator]
 label= &#xf080;
