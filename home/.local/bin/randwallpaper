@@ -15,4 +15,4 @@
 	sleep $1
     done
 
-) 9>>/var/lock/randwallpaper.lock
+) 9>>~/.config/randwallpaper.lock
