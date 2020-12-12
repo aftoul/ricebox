@@ -1,7 +1,11 @@
 #!/bin/sh
 
 # Install required packages
-sudo pacman --noconfirm -Syu sddm compton network-manager-applet xss-lock redshift notification-daemon libnotify ranger imagemagick ark python python-pip evince okular zenity xorg-xbacklight i3lock i3blocks git neovim feh ttf-font-awesome wget rxvt-unicode i3-gaps base-devel
+sudo pacman --noconfirm -Syu sddm compton network-manager-applet xss-lock redshift notification-daemon libnotify ranger imagemagick ark python python-pip evince okular zenity xorg-xbacklight i3lock i3blocks git neovim feh ttf-font-awesome wget rxvt-unicode i3-gaps base-devel pulseaudio-alsa
+
+# Link to notification-daemon
+
+sudo ln -sv /usr/lib/notification-daemon{-1.0,}/
 
 # Install yay
 

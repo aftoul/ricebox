@@ -14,13 +14,13 @@ command LatexC autocmd BufWritePost * ! ( [ -f '.LatexC' ] && sh '.LatexC' || pd
 
 
 
-" Map Ctrl-V and Ctrl-C to navigate tabs
-noremap <C-C> :tabp<CR>
-"noremap <C-V> :tabn<CR>
+" Map Ctrl-X and Ctrl-C to navigate tabs
+noremap <C-X> :tabp<CR>
+noremap <C-C> :tabn<CR>
 
 " Toggle nerdtree
 
-map <C-X> :NERDTreeToggle<CR>
+map <C-Y> :NERDTreeToggle<CR>
 
 call plug#begin(stdpath('data') . '/plugged')
 
