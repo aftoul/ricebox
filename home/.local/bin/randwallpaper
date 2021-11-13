@@ -5,14 +5,13 @@
     while true
     do
         # choose random wallpaper
-	[ -e "$2" -a -f "$2" ] && wallpaper=$2 ||
-        wallpaper=${2%/}/$(ls "$2" | shuf -n 1)
-	[ -z "$3" ] && opacity=90 || opacity=$3
-	echo $wallpaper
-        wal --backend colorz -a "$opacity" -i "$wallpaper"
+        [ -e "$2" -a -f "$2" ] && wallpaper=$2 ||
+            wallpaper=${2%/}/$(ls "$2" | shuf -n 1)
+        echo $wallpaper
+        feh --bg-center "$wallpaper"
         # Sleep for defined time or exit
         [ "$1" -le "0" ] && exit 1
-	sleep $1
+        sleep $1
     done
 
 ) 9>>~/.config/randwallpaper.lock

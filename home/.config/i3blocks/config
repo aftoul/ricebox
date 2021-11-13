@@ -40,15 +40,15 @@ markup=pango
 interval=5
 
 [volume]
-label= &#xf026; 
+label=&#xf026; 
 instance=Master
 interval=once
 signal=10
 
 # Wallpaper changer block
 [wallpaper-changer]
-label= &#xf1c5;
-command=[ "$BLOCK_BUTTON" = "1" ] && ~/.local/bin/randwallpaper 0 ~/.local/share/backgrounds 95 > /dev/null; echo ' '
+label=&#xf1c5;
+command=[ "$BLOCK_BUTTON" = "1" ] && ~/.local/bin/randwallpaper 0 ~/Pictures/wallpapers > /dev/null; echo ' '
 interval=once
 
 # Disk usage
@@ -57,30 +57,30 @@ interval=once
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
 [disk]
-label= &#xf015;
+label=&#xf015;
 interval=30
 
 # Custom backlight indicator
 [backlight-indicator]
-label= &#xf0eb;
+label=&#xf0eb; 
 interval=once
 signal=10
 
 # Battery indicator
-# [battery-indicator]
-# interval=30
+[battery-indicator]
+interval=30
 
 [bandwidth-indicator]
-label= &#xf080;
+label=&#xf080;
 interval=5
 
 [memory-indicator]
-label= &#xf200;
+label=&#xf200;
 interval=5
 
 # Date Time
 [time]
-command=date '+   &#xf073;%d/%m/%y &#xf017;%H:%M'
+command=date '+ &#xf073;%d/%m/%y &#xf017;%H:%M'
 interval=5
 
 # Temperature

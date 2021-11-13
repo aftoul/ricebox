@@ -16,6 +16,8 @@ sudo pip3 install deluge pywal colorz neovim
 # Install the dotfiles
 cp -arv home/. ~/
 
+mkdir -p ~/Pictures/wallpapers
+
 # Install vimplug in neovim
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 

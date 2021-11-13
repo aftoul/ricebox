@@ -120,6 +120,8 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+set -o vi
+
 PATH=$PATH:~/.local/bin:/opt/sublime_text
 
 XDG_DATA_HOME="~/.local/share"

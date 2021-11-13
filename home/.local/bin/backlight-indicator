@@ -14,7 +14,7 @@ then
 fi
 
 # Get the backlight brightness
-backlight=$(xbacklight)
+backlight=$(xbacklight -get)
 
 # Print the results
 pkill -SIGRTMIN+10 i3blocks

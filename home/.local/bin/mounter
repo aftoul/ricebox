@@ -10,6 +10,7 @@ device=$(lsblk -lp -o NAME,SIZE,TYPE,FSTYPE,UUID,MOUNTPOINT |
 
 block=$(echo $device | awk '{print $1}')
 UUID=$(echo $device | awk '{print $4}')
+type=$(echo $device | awk '{print $3}')
 
 export SUDO_ASKPASS=$HOME/.local/bin/askpass
 
@@ -23,10 +24,11 @@ sudo -A echo get pass ||
 
 if [ "$1" = 'u' ]; then
     echo unmounting $block...
+    [ $type = 'vfat' ] & options='-o rw,umask=0000'
     ( sudo -n umount "$block" ) &&
         notify-send -t 2000 -i media-eject -u low "Unmounted $block" ||
         error_message "Unmounting $block failed"
-else
+        else
     echo Creating mountpoint...
     mount_dir="/mnt/$UUID"
     [ -z "$(sudo -n ls -qA $mount_dir)" ] ||
@@ -34,7 +36,7 @@ else
     sudo -n mkdir -p $mount_dir || 
         ( error_message "mountpoint $mount_dir could not be created" && exit 1)
     echo mounting $block...
-       ( sudo -n mount "$block" $mount_dir) &&
+       ( sudo -n mount $options "$block" $mount_dir) &&
         notify-send -t 2000 -i drive-harddisk -u low "Mounted $block to $mount_dir" ||
         error_message "Mounting $block failed"
 fi

@@ -175,8 +175,8 @@ bindsym XF86MonBrightnessDown exec ~/.local/bin/backlight-indicator -
 bindsym XF86MonBrightnessUp exec ~/.local/bin/backlight-indicator +
 
 # i3-gaps specific config for the gaps
-gaps outer -6
-gaps inner 16
+gaps outer -8
+gaps inner 24
 
 # shortcuts for most used programs
 bindsym $mod+n exec urxvt -name ranger -e ranger
@@ -185,33 +185,54 @@ bindsym $mod+n exec urxvt -name ranger -e ranger
 bindsym $mod+m exec --no-startup-id ~/.local/bin/mounter
 bindsym $mod+u exec --no-startup-id ~/.local/bin/mounter u
 
+# shortcut for display_set (A botched together display settings)
+# Fallback to lxrandr
+bindsym $mod+x exec --no-startup-id display_set || lxrandr
+
+# start the browser
+bindsym $mod+b exec --no-startup-id librewolf 
+
+bindsym Print exec --no-startup-id spectacle 
+
+# set sleep on lock
+bindsym $mod+Shift+s exec rm ~/.nosleep
+
+# set no sleep on lock
+bindsym $mod+Shift+n exec touch ~/.nosleep
+
 # Get the colors from resources
-set_from_resource $fg i3wm.color7 #f0f0f0
-set_from_resource $bg i3wm.color0 #f0f0f0
-set_from_resource $br i3wm.color2 #f0f0f0
-set_from_resource $fc i3wm.color1 #f0f0f0
-set_from_resource $ur i3wm.color3 #f0f0f0
+set_from_resource $fg i3wm.color7  #f0f0f0
+set_from_resource $wt i3wm.color15 #f0f0f0
+set_from_resource $f2 i3wm.color8  #f0f0f0
+set_from_resource $bg i3wm.color0  #f0f0f0
+set_from_resource $br i3wm.color2  #f0f0f0
+set_from_resource $ur i3wm.color1  #f0f0f0
+
+set_from_resource $wb i3wm.color10 #f0f0f0
+set_from_resource $wu i3wm.color2  #f0f0f0
+set_from_resource $wf i3wm.color0  #f0f0f0
+set_from_resource $bw i3wm.color11 #f0f0f0
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
         colors {
-                background $bg
-                statusline $fg
-                separator  $sp
-                focused_workspace $bg $fc $fg
-                active_workspace $br $bg $fg
-                inactive_workspace $br $fc $fg
-                urgent_workspace $fg $ur $bg
+                background         $bg
+                statusline         $wt
+                separator          $wt
+                focused_workspace  $bw $wb $wf
+                active_workspace   $wu $wu $wf
+                inactive_workspace $wu $wu $wf
+                urgent_workspace   $wf $ur $wb
 
         }
         status_command i3blocks
         position top
-        font pango:Hack, FontAwesome 9
+        font pango:Hack, FontAwesome4 8
 }
 
 # class                 border  backgr. text indicator child_border
-client.focused          $bg     $bg     $fg  $bg       $bg
+client.focused          $f2     $bg     $fg  $bg       $bg
 client.focused_inactive $bg     $bg     $fg  $bg       $bg
 client.unfocused        $bg     $bg     $fg  $bg       $bg
 client.urgent           $bg     $bg     $fg  $bg       $bg
@@ -231,7 +252,7 @@ assign [class="Sublime_text|Code|Kate"] 5
 assign [class="Pcmanfm|Ark"] 4
 assign [instance="ranger"] 4
 # workspace 6: Office
-assign [class="libreoffice-.*|Evince|Okular"] 6
+assign [class="libreoffice-.*"] 6
 
 # Internet workspace defaults to tabbed
 for_window [workspace=2] layout tabbed
@@ -240,9 +261,9 @@ focus_follows_mouse no
 
 exec --no-startup-id /usr/lib/notification-daemon/notification-daemon
 
-exec --no-startup-id ~/.local/bin/randwallpaper 0 ~/.local/share/backgrounds/ 95
-exec --no-startup-id compton
+exec --no-startup-id ~/local/bin/randwallpaper 0 ~/Pictures/wallpapers
+exec --no-startup-id picom
 exec --no-startup-id nm-applet
-exec --no-startup-id xss-lock -- ~/.local/bin/locker 
+exec --no-startup-id xss-lock --ignore-sleep -- ~/.local/bin/locker 
 exec --no-startup-id redshift -p -t 6000K:4500K
 

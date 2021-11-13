@@ -2,10 +2,12 @@
 
 
 xset s off dpms 0 10 0
-i3lock -i ~/.local/share/i3lock-background.png --ignore-empty-password --show-failed-attempts --nofork & pid=$!
-# Suspend if not charging
-stat=$(cat /sys/class/power_supply/BAT0/status)
-sleep 5
-[ "$stat" != "Charging" -a "$stat" != "Full" ] && systemctl suspend
-wait $pid
+if ! [ -f ~/.nosleep ] ; then
+    i3lock -i ~/.local/share/i3lock-background.png --ignore-empty-password --show-failed-attempts --nofork & pid=$!
+    # Suspend if not charging
+    stat=$(cat /sys/class/power_supply/BAT0/status)
+    sleep 5
+    [ "$stat" != "Charging" -a "$stat" != "Full" -a "$stat" != "Unknown" ] && systemctl suspend
+    wait $pid
+fi
 xset s off -dpms
