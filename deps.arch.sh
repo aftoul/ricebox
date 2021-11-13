@@ -5,7 +5,7 @@ sudo pacman --noconfirm -Syu sddm compton network-manager-applet xss-lock redshi
 
 # Link to notification-daemon
 
-sudo ln -sv /usr/lib/notification-daemon{-1.0,}/
+sudo ln -sv /usr/lib/notification-daemon{-1.0,}
 
 # Install yay
 
@@ -22,4 +22,4 @@ popd
 rm -rf "$tempdir"
 
 # Install i3blocks scripts
-paru --cleanafter --answerclean A --answerdiff N --answerupgrade Y -Sy i3blocks-contrib-git
+paru --cleanafter --skipreview --noconfirm -Sy i3blocks-contrib-git

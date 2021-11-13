@@ -26,5 +26,5 @@ nvim -c ':PlugInstall
 :q!
 :q!'
 
-
+sudo systemctl enable sddm
 
