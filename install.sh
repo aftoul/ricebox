@@ -26,5 +26,7 @@ nvim -c ':PlugInstall
 :q!
 :q!'
 
+curl -fLo .urxvt/ext/font-size --create-dirs https://raw.githubusercontent.com/majutsushi/urxvt-font-size/master/font-size
+
 sudo systemctl enable sddm
 
