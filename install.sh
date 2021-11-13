@@ -11,7 +11,7 @@ case $DISTRO in
         break;;
 esac
 
-sudo pip3 install deluge pywal colorz neovim
+sudo pip3 install deluge neovim
 
 # Install the dotfiles
 cp -arv home/. ~/
