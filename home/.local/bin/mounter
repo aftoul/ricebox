@@ -24,19 +24,19 @@ sudo -A echo get pass ||
 
 if [ "$1" = 'u' ]; then
     echo unmounting $block...
-    [ $type = 'vfat' ] & options='-o rw,umask=0000'
     ( sudo -n umount "$block" ) &&
         notify-send -t 2000 -i media-eject -u low "Unmounted $block" ||
         error_message "Unmounting $block failed"
-        else
+else
     echo Creating mountpoint...
     mount_dir="/mnt/$UUID"
+    [ $type = 'vfat' ] && options='rw,umask=0000'
     [ -z "$(sudo -n ls -qA $mount_dir)" ] ||
         ( error_message "$mount_dir is not empty" && exit 1)
     sudo -n mkdir -p $mount_dir || 
         ( error_message "mountpoint $mount_dir could not be created" && exit 1)
     echo mounting $block...
-       ( sudo -n mount $options "$block" $mount_dir) &&
+        ( sudo -n mount $(! [ -z '$options' ] && echo -o $options) "$block" $mount_dir) &&
         notify-send -t 2000 -i drive-harddisk -u low "Mounted $block to $mount_dir" ||
         error_message "Mounting $block failed"
 fi
