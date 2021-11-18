@@ -1,7 +1,15 @@
 #!/bin/sh
 
+# Install the dotfiles
+cp -arv home/. ~/
+
+if [ "$1" = "--no-deps" ]; then
+    exit 0
+fi
+
 DISTRO=$(cat /etc/os-release | sed -nr "s/^ID=(.*)$/\1/p")
 
+# Install distro specific dependencies
 case $DISTRO in 
     debian|ubuntu)
         sh deps.debian.sh
@@ -12,12 +20,6 @@ case $DISTRO in
 esac
 
 sudo pip3 install deluge neovim
-
-# Install the dotfiles
-cp -arv home/. ~/
-
-mkdir -p ~/Pictures/wallpapers
-
 # Install vimplug in neovim
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
